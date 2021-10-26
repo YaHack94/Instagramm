@@ -1,0 +1,138 @@
+<div
+      class="modal fade"
+      id="publication"
+      data-mdb-backdrop="static"
+      data-mdb-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+           <h5 class="modal-title" id="staticBackdropLabel" style="font-weight: bolder;">Nouvelle publication</h5>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-mdb-dismiss="modal"
+              aria-label="Close"
+            ></button>
+
+          </div>
+
+          <div class="modal-body">
+
+            
+            <%= form_with(model: @publication, url: createpub_path, method: "post") do |form| %>
+                
+                <div class="form-outline mb-4">
+                
+                <%= image_tag(@publication.image.url) if @publication.image && @publication.image.url %>
+                  <%= form.file_field :image, class: "form-control" %>
+                  
+                </div>
+
+                
+                
+                
+              <div class="text-center">
+                <%= form.submit "Publier", class: "btn btn-success  mb-4", style: "padding-right: 50px; padding-left: 50px; font-size: 17px;" %>
+              <% end %>
+              </div>
+              <hr>
+              &nbsp;&nbsp;
+                    <%= link_to "Sign In", user_path, class: "btn btn-outline-success" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-mdb-dismiss="modal">
+              Annuler
+            </button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+<div class="errors">
+      <% if flash[:pub_errors]%>
+        <% flash[:pub_errors].each do |error| %>
+          <p class="alert alert-danger"> <%=error%></p>
+        <%end%>
+      <%end%>
+</div>
+
+<div class="errors">
+      <% if flash[:pub_success]%>
+        
+          <p class="alert alert-success"> <%= flash[:pub_success] %></p>
+        <%end%>
+      
+    </div>
+
+
+<div style="margin-top: 50px;">
+<% @publications.each do |publication| %>
+  
+<div class="row">
+  <div class="col-md-1">
+    
+  </div>
+
+  <div class="col-md-7 mb-3">
+      <div class="card mb-3">
+
+    <p class="card-text mt-3">
+        &nbsp;&nbsp;&nbsp;
+      <i class="fas fa-user"></i>
+        &nbsp;
+        <% @users.each do |usere| %>
+          <% if publication.user_id == usere.id %>
+              <%= usere.name %>&nbsp;&nbsp;
+              <%= usere.surname %>
+          <% end %>
+        <% end %>
+        </p>
+        <div class="card-body">
+          <img
+            src="<%= publication.image %>"
+            class="card-img-top"
+            alt="..."
+          />
+        </div>
+     
+    <div class="card-body">
+      
+      <p class="card-text text-center" style="margin-top: -15px;">
+       
+      <div class="row">
+        <div class="col-6 ">
+          <p class="card-text">
+            <small class="text-muted">Publié le <%= publication.created_at %></small>
+          </p>
+          <br>
+          
+        </div>
+        
+      </div>
+
+    </div>
+
+        
+</div>
+  </div>
+
+  <div class="col-md-3">
+      
+  </div>
+
+</div>
+
+<% end %>
+
+</div>
